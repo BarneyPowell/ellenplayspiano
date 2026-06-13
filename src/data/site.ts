@@ -12,14 +12,14 @@ export const hero = {
   // "play" is rendered in italic gold — split deliberately
   subtext:
     "Classical piano lessons rooted in thirty years of musical experience, patient guidance, and the quiet joy of discovery — for children and adults alike.",
-  cta: { label: "Book a Consultation", href: "#contact" },
+  cta: { label: "Book a Trial Lesson", href: "#contact" },
 } as const;
 
 export const about = {
   heading: "About Ellen",
   lead: "Thirty years at the piano — as performer, student, and teacher. A deep belief that musical education is for everyone, at every stage of life.",
   columns: [
-    "My teaching is grounded in the classical tradition — careful technique, structured progression, and a genuine respect for the discipline that makes real musicianship possible. I prepare pupils for ABRSM and Trinity examinations with consistently strong results, but exams are only part of the picture.",
+    "My teaching is grounded in the classical tradition — careful technique, structured progression, and a genuine respect for the discipline that makes real musicianship possible. I prepare pupils for ABRSM and Trinity examinations, but exams are only part of the picture.",
     "What I truly care about is helping each person — whether they're five or fifty-five — develop a lasting, personal relationship with music. One that brings confidence, calm, creative satisfaction, and the quiet pride of mastering something beautiful.",
   ],
 } as const;
@@ -33,13 +33,6 @@ export interface Lesson {
 
 export const lessons: Lesson[] = [
   {
-    audience: "Ages 5–7",
-    name: "First Steps",
-    description:
-      "A playful, gentle introduction. Building rhythm, hand position, and a love of music from the very first note.",
-    duration: "20 minutes",
-  },
-  {
     audience: "Ages 7–11",
     name: "Building Foundations",
     description:
@@ -50,7 +43,7 @@ export const lessons: Lesson[] = [
     audience: "Ages 11–16",
     name: "Young Musicians",
     description:
-      "Ambitious repertoire, nuanced interpretation, and the poise that comes from dedicated, serious practice.",
+      "Ambitious repertoire, nuanced interpretation, and the poise that comes from dedicated, serious practice. Lessons take place on a beautifully regulated Kemble upright piano at my home studio in London N14.",
     duration: "45 minutes",
   },
   {
@@ -88,10 +81,7 @@ export const philosophy: PhilosophyItem[] = [
   },
 ];
 
-export const pullQuote = {
-  text: "She doesn't just teach piano — she teaches you how to love the process of learning something difficult and beautiful.",
-  attribution: "Parent of a Grade 4 pupil",
-} as const;
+// Pull quote removed — placeholder testimonial pending real one from Ellen.
 
 export const contact = {
   heading: "Get in touch",
