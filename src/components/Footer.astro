@@ -1,0 +1,94 @@
+---
+import { trustItems, site } from "../data/site";
+
+// SVG paths keyed by icon name
+const icons: Record<string, string> = {
+  shield:
+    "M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z",
+  clock: "M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z",
+  music:
+    "M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2z",
+  pin: "M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0zM15 11a3 3 0 11-6 0 3 3 0 016 0z",
+};
+---
+
+<div class="trust-bar animate-on-scroll">
+  {
+    trustItems.map((item) => (
+      <div class="trust-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" aria-hidden="true">
+          <path d={icons[item.icon]} />
+        </svg>
+        <span>{item.label}</span>
+      </div>
+    ))
+  }
+</div>
+
+<footer>
+  <p>&copy; {site.year} {site.name}</p>
+  <a href={`mailto:${site.email}`}>{site.email}</a>
+</footer>
+
+<style>
+  .trust-bar {
+    border-top: 1px solid var(--border);
+    padding: 2.5rem 4rem;
+    display: flex;
+    justify-content: center;
+    gap: 3rem;
+    flex-wrap: wrap;
+  }
+
+  .trust-item {
+    font-size: 0.75rem;
+    font-weight: 300;
+    color: var(--gold-muted);
+    letter-spacing: 0.04em;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .trust-item svg {
+    width: 14px;
+    height: 14px;
+    stroke: var(--gold-muted);
+  }
+
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 3rem 4rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  footer p,
+  footer a {
+    font-size: 0.75rem;
+    color: var(--gold-muted);
+    font-weight: 300;
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+
+  footer a:hover {
+    color: var(--gold);
+  }
+
+  @media (max-width: 768px) {
+    .trust-bar {
+      padding: 2rem 1.5rem;
+      gap: 1.5rem;
+    }
+
+    footer {
+      flex-direction: column;
+      gap: 1rem;
+      padding: 2rem 1.5rem;
+    }
+  }
+</style>

@@ -1,0 +1,49 @@
+---
+import { philosophy } from "../data/site";
+---
+
+<div class="content-section animate-on-scroll" id="philosophy">
+  <span class="section-number">iii.</span>
+  <h2>Teaching philosophy</h2>
+  <p class="lead">Four principles that shape every lesson.</p>
+  <div class="philosophy-grid">
+    {
+      philosophy.map((item) => (
+        <div class="philosophy-item">
+          <h4>{item.heading}</h4>
+          <p>{item.body}</p>
+        </div>
+      ))
+    }
+  </div>
+</div>
+
+<style>
+  .philosophy-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2.5rem 3rem;
+    margin-top: 2.5rem;
+  }
+
+  .philosophy-item h4 {
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    font-weight: 500;
+    color: var(--cream);
+    margin-bottom: 0.4rem;
+  }
+
+  .philosophy-item p {
+    font-size: 0.87rem;
+    font-weight: 300;
+    color: var(--cream-dim);
+    line-height: 1.75;
+  }
+
+  @media (max-width: 768px) {
+    .philosophy-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
