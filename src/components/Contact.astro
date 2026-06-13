@@ -6,7 +6,7 @@ import { contact } from "../data/site";
   <span class="section-number">iv.</span>
   <h2>{contact.heading}</h2>
   <p class="lead">{contact.lead}</p>
-  <form class="contact-form" id="contact-form">
+  <form class="contact-form" id="contact-form" novalidate>
     <div class="form-row">
       <div class="form-group">
         <label for="name">Name</label>
@@ -44,24 +44,80 @@ import { contact } from "../data/site";
         name="message"
         placeholder="Tell me a little about yourself or your child, and what you're hoping for..."></textarea>
     </div>
-    <button type="submit" class="form-submit">Send Message</button>
+    <!-- Honeypot — hidden from real users, bots fill it in -->
+    <div class="hp-field" aria-hidden="true">
+      <label for="website">Website</label>
+      <input type="text" id="website" name="website" tabindex="-1" autocomplete="off" />
+    </div>
+    <button type="submit" class="form-submit">
+      <span class="btn-label">Send Message</span>
+      <span class="btn-sending" hidden>Sending…</span>
+    </button>
+    <p class="form-error" hidden>Something went wrong — please try emailing <a href="mailto:hello@ellenplayspiano.com">hello@ellenplayspiano.com</a> directly.</p>
   </form>
 </div>
 
 <script>
   const form = document.getElementById("contact-form") as HTMLFormElement | null;
-  form?.addEventListener("submit", (e) => {
+  if (!form) throw new Error("contact-form not found");
+
+  const btn = form.querySelector(".form-submit") as HTMLButtonElement;
+  const labelEl = btn.querySelector(".btn-label") as HTMLElement;
+  const sendingEl = btn.querySelector(".btn-sending") as HTMLElement;
+  const errorEl = form.querySelector(".form-error") as HTMLElement;
+
+  form.addEventListener("submit", async (e) => {
     e.preventDefault();
-    const btn = form.querySelector(".form-submit") as HTMLButtonElement;
-    btn.textContent = "Sent — thank you ✓";
-    btn.style.borderColor = "rgba(120, 180, 120, 0.6)";
-    btn.style.color = "rgba(120, 180, 120, 0.8)";
-    setTimeout(() => {
-      btn.textContent = "Send Message";
-      btn.style.borderColor = "";
-      btn.style.color = "";
-      form.reset();
-    }, 3000);
+    errorEl.hidden = true;
+
+    // Collect fields
+    const get = (name: string) =>
+      (form.elements.namedItem(name) as HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement)?.value ?? "";
+
+    const payload = {
+      name: get("name"),
+      email: get("email"),
+      who: get("who"),
+      experience: get("experience"),
+      message: get("message"),
+      website: get("website"), // honeypot
+    };
+
+    // Loading state
+    btn.disabled = true;
+    labelEl.hidden = true;
+    sendingEl.hidden = false;
+
+    try {
+      const res = await fetch("/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
+      // Success
+      labelEl.textContent = "Sent — thank you ✓";
+      labelEl.hidden = false;
+      sendingEl.hidden = true;
+      btn.style.borderColor = "rgba(120, 180, 120, 0.6)";
+      btn.style.color = "rgba(120, 180, 120, 0.8)";
+
+      setTimeout(() => {
+        labelEl.textContent = "Send Message";
+        btn.style.borderColor = "";
+        btn.style.color = "";
+        btn.disabled = false;
+        form.reset();
+      }, 4000);
+    } catch {
+      // Failure
+      sendingEl.hidden = true;
+      labelEl.hidden = false;
+      btn.disabled = false;
+      errorEl.hidden = false;
+    }
   });
 </script>
 
@@ -90,6 +146,14 @@ import { contact } from "../data/site";
     display: flex;
     flex-direction: column;
     gap: 1.3rem;
+  }
+
+  /* Honeypot — visually hidden */
+  .hp-field {
+    position: absolute;
+    left: -9999px;
+    opacity: 0;
+    pointer-events: none;
   }
 
   .form-row {
@@ -166,9 +230,25 @@ import { contact } from "../data/site";
     font-family: var(--font-body);
   }
 
-  .form-submit:hover {
+  .form-submit:hover:not(:disabled) {
     background: var(--gold);
     color: var(--dark);
+  }
+
+  .form-submit:disabled {
+    opacity: 0.6;
+    cursor: default;
+  }
+
+  .form-error {
+    text-align: center;
+    font-size: 0.82rem;
+    color: rgba(220, 100, 100, 0.85);
+    font-weight: 300;
+  }
+
+  .form-error a {
+    color: var(--gold);
   }
 
   @media (max-width: 768px) {
