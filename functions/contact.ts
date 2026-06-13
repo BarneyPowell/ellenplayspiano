@@ -12,43 +12,47 @@ interface ContactFormData {
   website?: string;
 }
 
-export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
-  // Only accept POST
-  if (request.method !== "POST") {
-    return new Response(JSON.stringify({ error: "Method not allowed" }), {
-      status: 405,
-      headers: { "Content-Type": "application/json" },
-    });
-  }
+const RESEND_URL = "https://api.resend.com/emails";
 
+async function sendEmail(
+  apiKey: string,
+  payload: {
+    from: string;
+    to: string[];
+    reply_to?: string;
+    subject: string;
+    text: string;
+  }
+): Promise<{ ok: boolean; status: number; body: string }> {
+  const res = await fetch(RESEND_URL, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${apiKey}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(payload),
+  });
+  return { ok: res.ok, status: res.status, body: await res.text() };
+}
+
+export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
   let data: ContactFormData;
   try {
     data = await request.json();
   } catch {
-    return new Response(JSON.stringify({ error: "Invalid request body" }), {
-      status: 400,
-      headers: { "Content-Type": "application/json" },
-    });
+    return json({ error: "Invalid request body" }, 400);
   }
 
-  // Honeypot — bots fill this, humans don't see it
+  // Honeypot — bots fill this, real users never see it
   if (data.website) {
-    // Silently succeed so bots don't know they were caught
-    return new Response(JSON.stringify({ ok: true }), {
-      status: 200,
-      headers: { "Content-Type": "application/json" },
-    });
+    return json({ ok: true }, 200); // silent success
   }
 
   // Basic validation
   if (!data.name?.trim() || !data.email?.trim()) {
-    return new Response(JSON.stringify({ error: "Name and email are required" }), {
-      status: 422,
-      headers: { "Content-Type": "application/json" },
-    });
+    return json({ error: "Name and email are required" }, 422);
   }
 
-  // Format the who/experience labels nicely
   const whoLabel: Record<string, string> = {
     child: "A child",
     adult: "Myself (adult)",
@@ -60,44 +64,75 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
     intermediate: "Intermediate / graded",
   };
 
-  const emailBody = `
+  const whoText = whoLabel[data.who] ?? data.who ?? "Not specified";
+  const experienceText = experienceLabel[data.experience] ?? data.experience ?? "Not specified";
+
+  // ── 1. Email to Ellen (internal notification) ─────────────────────────────
+  const internalBody = `
 New enquiry from ellenplayspiano.com
 
 Name:        ${data.name}
 Email:       ${data.email}
-Lessons for: ${whoLabel[data.who] ?? data.who ?? "Not specified"}
-Experience:  ${experienceLabel[data.experience] ?? data.experience ?? "Not specified"}
+Lessons for: ${whoText}
+Experience:  ${experienceText}
 
 Message:
-${data.message ?? "(no message)"}
+${data.message?.trim() ?? "(no message)"}
 `.trim();
 
-  const res = await fetch("https://api.resend.com/emails", {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${env.RESEND_API_KEY}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      from: "Ellen Plays Piano <hello@ellenplayspiano.com>",
-      to: ["hello@ellenplayspiano.com"],
-      reply_to: data.email,
-      subject: `New lesson enquiry from ${data.name}`,
-      text: emailBody,
-    }),
+  const internalResult = await sendEmail(env.RESEND_API_KEY, {
+    from: "Ellen Plays Piano <hello@ellenplayspiano.com>",
+    to: ["hello@ellenplayspiano.com"],
+    reply_to: data.email,
+    subject: `New lesson enquiry from ${data.name}`,
+    text: internalBody,
   });
 
-  if (!res.ok) {
-    const err = await res.text();
-    console.error("Resend error:", err);
-    return new Response(JSON.stringify({ error: "Failed to send email" }), {
-      status: 500,
-      headers: { "Content-Type": "application/json" },
-    });
+  if (!internalResult.ok) {
+    console.error("Resend error (internal):", internalResult.status, internalResult.body);
+    return json({ error: "Failed to send enquiry" }, 500);
   }
 
-  return new Response(JSON.stringify({ ok: true }), {
-    status: 200,
+  // ── 2. Confirmation email to the enquirer (only if #1 succeeded) ──────────
+  const isForChild = data.who === "child";
+
+  const confirmationBody = `
+Dear ${data.name},
+
+Thank you so much for getting in touch — I'm delighted you're interested in piano lessons${isForChild ? " for your child" : ""}.
+
+I've received your message and will reply personally within a day or two to arrange a time to chat. In the meantime, if you have any questions, you're always welcome to reply to this email.
+
+I very much look forward to hearing from you.
+
+Warmly,
+Ellen
+
+——
+Ellen Plays Piano
+hello@ellenplayspiano.com
+ellenplayspiano.com
+`.trim();
+
+  const confirmResult = await sendEmail(env.RESEND_API_KEY, {
+    from: "Ellen Dean <hello@ellenplayspiano.com>",
+    to: [data.email],
+    reply_to: "hello@ellenplayspiano.com",
+    subject: "Thank you for your enquiry — Ellen Plays Piano",
+    text: confirmationBody,
+  });
+
+  if (!confirmResult.ok) {
+    // Not fatal — Ellen still got the notification. Log and carry on.
+    console.warn("Resend warning (confirmation):", confirmResult.status, confirmResult.body);
+  }
+
+  return json({ ok: true }, 200);
+};
+
+function json(body: unknown, status: number): Response {
+  return new Response(JSON.stringify(body), {
+    status,
     headers: { "Content-Type": "application/json" },
   });
-};
+}
