@@ -1,7 +1,7 @@
 export const site = {
   name: "Ellen Plays Piano",
   tagline: "Piano tuition for all ages",
-  email: "hello@ellenplayspiano.com",
+  email: import.meta.env.WEBSITE_EMAIL ?? "hello@ellenplayspiano.com",
   location: "Home studio in London N14",
   year: 2026,
 } as const;

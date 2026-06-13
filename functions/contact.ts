@@ -1,5 +1,6 @@
 interface Env {
   RESEND_API_KEY: string;
+  WEBSITE_EMAIL: string;
 }
 
 interface ContactFormData {
@@ -36,6 +37,8 @@ async function sendEmail(
 }
 
 export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
+  const siteEmail = env.WEBSITE_EMAIL;
+
   let data: ContactFormData;
   try {
     data = await request.json();
@@ -67,7 +70,7 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
   const whoText = whoLabel[data.who] ?? data.who ?? "Not specified";
   const experienceText = experienceLabel[data.experience] ?? data.experience ?? "Not specified";
 
-  // ── 1. Email to Ellen (internal notification) ─────────────────────────────
+  // ── 1. Notification to Ellen ──────────────────────────────────────────────
   const internalBody = `
 New enquiry from ellenplayspiano.com
 
@@ -81,8 +84,8 @@ ${data.message?.trim() ?? "(no message)"}
 `.trim();
 
   const internalResult = await sendEmail(env.RESEND_API_KEY, {
-    from: "Ellen Plays Piano <hello@ellenplayspiano.com>",
-    to: ["hello@ellenplayspiano.com"],
+    from: `Ellen Plays Piano <${siteEmail}>`,
+    to: [siteEmail],
     reply_to: data.email,
     subject: `New lesson enquiry from ${data.name}`,
     text: internalBody,
@@ -93,7 +96,7 @@ ${data.message?.trim() ?? "(no message)"}
     return json({ error: "Failed to send enquiry" }, 500);
   }
 
-  // ── 2. Confirmation email to the enquirer (only if #1 succeeded) ──────────
+  // ── 2. Confirmation to the enquirer (only if #1 succeeded) ───────────────
   const isForChild = data.who === "child";
 
   const confirmationBody = `
@@ -110,20 +113,20 @@ Ellen
 
 ——
 Ellen Plays Piano
-hello@ellenplayspiano.com
+${siteEmail}
 ellenplayspiano.com
 `.trim();
 
   const confirmResult = await sendEmail(env.RESEND_API_KEY, {
-    from: "Ellen Dean <hello@ellenplayspiano.com>",
+    from: `Ellen Dean <${siteEmail}>`,
     to: [data.email],
-    reply_to: "hello@ellenplayspiano.com",
+    reply_to: siteEmail,
     subject: "Thank you for your enquiry — Ellen Plays Piano",
     text: confirmationBody,
   });
 
   if (!confirmResult.ok) {
-    // Not fatal — Ellen still got the notification. Log and carry on.
+    // Not fatal — Ellen still got her notification. Log and carry on.
     console.warn("Resend warning (confirmation):", confirmResult.status, confirmResult.body);
   }
 

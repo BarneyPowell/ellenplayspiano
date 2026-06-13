@@ -1,5 +1,6 @@
 ---
 import { contact } from "../data/site";
+const siteEmail = import.meta.env.WEBSITE_EMAIL ?? "hello@ellenplayspiano.com";
 ---
 
 <div class="contact-section animate-on-scroll" id="contact">
@@ -53,7 +54,7 @@ import { contact } from "../data/site";
       <span class="btn-label">Send Message</span>
       <span class="btn-sending" hidden>Sending…</span>
     </button>
-    <p class="form-error" hidden>Something went wrong — please try emailing <a href="mailto:hello@ellenplayspiano.com">hello@ellenplayspiano.com</a> directly.</p>
+    <p class="form-error" hidden>Something went wrong — please try emailing <a href={`mailto:${siteEmail}`}>{siteEmail}</a> directly.</p>
   </form>
 </div>
 
