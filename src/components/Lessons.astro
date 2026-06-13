@@ -1,0 +1,101 @@
+---
+import { lessons, lessonsRateNote } from "../data/site";
+---
+
+<div class="content-section animate-on-scroll" id="lessons">
+  <span class="section-number">ii.</span>
+  <h2>Lessons</h2>
+  <p class="lead">
+    Programmes shaped around where you are and where you'd like to go. All
+    lessons take place on a beautifully regulated Kemball upright piano at my
+    home studio in London N14.
+  </p>
+  <div class="lessons-list">
+    {
+      lessons.map((lesson) => (
+        <div class="lesson-row">
+          <span class="audience">{lesson.audience}</span>
+          <div>
+            <div class="name">{lesson.name}</div>
+            <p class="description">{lesson.description}</p>
+          </div>
+          <span class="duration">{lesson.duration}</span>
+        </div>
+      ))
+    }
+  </div>
+  <p class="rate-note">{lessonsRateNote}</p>
+</div>
+
+<style>
+  .lessons-list {
+    margin-top: 2.5rem;
+  }
+
+  .lesson-row {
+    display: grid;
+    grid-template-columns: 120px 1fr auto;
+    gap: 2rem;
+    align-items: baseline;
+    padding: 1.8rem 0;
+    border-bottom: 1px solid var(--border);
+    transition: opacity 0.3s ease;
+  }
+
+  .lesson-row:first-child {
+    border-top: 1px solid var(--border);
+  }
+
+  .lesson-row:hover {
+    opacity: 0.7;
+  }
+
+  .audience {
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    font-style: italic;
+    color: var(--gold-muted);
+  }
+
+  .name {
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    font-weight: 500;
+    color: var(--cream);
+  }
+
+  .description {
+    font-size: 0.87rem;
+    font-weight: 300;
+    color: var(--cream-dim);
+    margin-top: 0.3rem;
+    line-height: 1.7;
+  }
+
+  .duration {
+    font-size: 0.78rem;
+    color: var(--gold-muted);
+    text-align: right;
+    white-space: nowrap;
+  }
+
+  .rate-note {
+    margin-top: 2rem;
+    font-size: 0.88rem;
+    font-weight: 300;
+    color: var(--gold);
+    font-family: var(--font-display);
+    font-style: italic;
+  }
+
+  @media (max-width: 768px) {
+    .lesson-row {
+      grid-template-columns: 1fr;
+      gap: 0.4rem;
+    }
+
+    .duration {
+      text-align: left;
+    }
+  }
+</style>

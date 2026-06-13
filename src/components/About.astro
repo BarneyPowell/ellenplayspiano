@@ -1,0 +1,35 @@
+---
+import { about } from "../data/site";
+---
+
+<div class="content-section animate-on-scroll" id="about">
+  <span class="section-number">i.</span>
+  <h2>{about.heading}</h2>
+  <p class="lead">{about.lead}</p>
+  <div class="about-columns">
+    {about.columns.map((col) => <p>{col}</p>)}
+  </div>
+</div>
+
+<style>
+  .about-columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    margin-top: 2.5rem;
+  }
+
+  .about-columns p {
+    font-size: 0.9rem;
+    font-weight: 300;
+    color: var(--cream-dim);
+    line-height: 1.9;
+  }
+
+  @media (max-width: 768px) {
+    .about-columns {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+  }
+</style>
