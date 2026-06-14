@@ -71,6 +71,11 @@ const siteEmail = import.meta.env.WEBSITE_EMAIL ?? "hello@ellenplayspiano.com";
     e.preventDefault();
     errorEl.hidden = true;
 
+    if (!form.checkValidity()) {
+      form.reportValidity();
+      return;
+    }
+
     // Collect fields
     const get = (name: string) =>
       (form.elements.namedItem(name) as HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement)?.value ?? "";

@@ -13,6 +13,7 @@
   --dark: #0d0d0d;
   --dark-surface: #141414;
   --border: rgba(201, 169, 110, 0.12);
+  --border-transparent: rgba(201, 169, 110, 0);
   --font-display: "EB Garamond", Georgia, serif;
   --font-body: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
 }
@@ -28,6 +29,7 @@
 
 html {
   scroll-behavior: smooth;
+  background-color: var(--dark);
 }
 
 body {

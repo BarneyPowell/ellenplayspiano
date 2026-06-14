@@ -19,7 +19,24 @@ import Footer from "../components/Footer.astro";
 
   <!-- Photo break -->
   <div class="photo-break animate-on-scroll">
-    <img src="/ellen-portrait.jpg" alt="Ellen at the piano" />
+    <picture>
+      <source
+        media="(min-width: 768px)"
+        srcset="/ellen-landscape-768.jpg 768w, /ellen-landscape.jpg 1280w"
+        sizes="100vw"
+      />
+      <img
+        src="/ellen-portrait-768.jpg"
+        srcset="/ellen-portrait-480.jpg 480w, /ellen-portrait-768.jpg 768w, /ellen-portrait.jpg 1080w"
+        sizes="100vw"
+        width="1080"
+        height="1440"
+        loading="lazy"
+        decoding="async"
+        fetchpriority="low"
+        alt="Ellen at the piano"
+      />
+    </picture>
   </div>
 
   <Lessons />
@@ -34,6 +51,22 @@ import Footer from "../components/Footer.astro";
 
   <Footer />
 </Layout>
+
+<script>
+  const photoBreak = document.querySelector(".photo-break");
+  const photoImage = photoBreak?.querySelector("img");
+
+  if (photoBreak && photoImage) {
+    const markLoaded = () => photoBreak.classList.add("photo-loaded");
+
+    if (photoImage.complete) {
+      markLoaded();
+    } else {
+      photoImage.addEventListener("load", markLoaded, { once: true });
+      photoImage.addEventListener("error", markLoaded, { once: true });
+    }
+  }
+</script>
 
 <style>
   .photo-break {
@@ -50,12 +83,48 @@ import Footer from "../components/Footer.astro";
     overflow: hidden;
   }
 
+  /* Desktop: 16:9 landscape layout */
+  @media (min-width: 768px) {
+    .photo-break {
+      height: auto;
+      aspect-ratio: 16 / 9;
+      max-height: none;
+    }
+  }
+
+  .photo-break picture,
   .photo-break img {
     width: 100%;
     height: 100%;
+    display: block;
+  }
+
+  .photo-break img {
     object-fit: cover;
-    object-position: center 20%;
+    object-position: center bottom;
     opacity: 0.85;
+  }
+
+  html.js .photo-break img {
+    filter: blur(10px);
+    opacity: 0;
+    transform: scale(1.015);
+    transition:
+      filter 900ms ease,
+      opacity 900ms ease,
+      transform 900ms ease;
+  }
+
+  html.js .photo-break.photo-loaded img {
+    filter: blur(0);
+    opacity: 0.85;
+    transform: scale(1);
+  }
+
+  @media (min-width: 768px) {
+    .photo-break img {
+      object-position: center center;
+    }
   }
 
   .photo-break::after {
