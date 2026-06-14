@@ -19,7 +19,10 @@ import Footer from "../components/Footer.astro";
 
   <!-- Photo break -->
   <div class="photo-break animate-on-scroll">
-    <img src="/ellen-portrait.jpg" alt="Ellen at the piano" />
+    <picture>
+      <source media="(min-width: 768px)" srcset="/ellen-landscape.jpg" />
+      <img src="/ellen-portrait.jpg" alt="Ellen at the piano" />
+    </picture>
   </div>
 
   <Lessons />
@@ -48,6 +51,15 @@ import Footer from "../components/Footer.astro";
     justify-content: center;
     position: relative;
     overflow: hidden;
+  }
+
+  /* Desktop: 16:9 landscape layout */
+  @media (min-width: 768px) {
+    .photo-break {
+      height: auto;
+      aspect-ratio: 16 / 9;
+      max-height: none;
+    }
   }
 
   .photo-break img {
