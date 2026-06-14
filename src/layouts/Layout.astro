@@ -11,6 +11,9 @@ const {
   title = `${site.name} — Piano Lessons for All Ages`,
   description = "Classical piano lessons for children and adults in London N14. ABRSM and Trinity preparation. 30 years' experience.",
 } = Astro.props;
+
+const fontStylesheet =
+  "https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@300;400;500&display=swap";
 ---
 
 <!doctype html>
@@ -24,9 +27,14 @@ const {
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@300;400;500&display=swap"
-      rel="stylesheet"
+      rel="preload"
+      as="style"
+      href={fontStylesheet}
+      onload="this.onload=null;this.rel='stylesheet'"
     />
+    <noscript>
+      <link href={fontStylesheet} rel="stylesheet" />
+    </noscript>
   </head>
   <body>
     <slot />
