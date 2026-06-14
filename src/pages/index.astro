@@ -20,8 +20,19 @@ import Footer from "../components/Footer.astro";
   <!-- Photo break -->
   <div class="photo-break animate-on-scroll">
     <picture>
-      <source media="(min-width: 768px)" srcset="/ellen-landscape.jpg" />
-      <img src="/ellen-portrait.jpg" alt="Ellen at the piano" />
+      <source
+        media="(min-width: 768px)"
+        srcset="/ellen-landscape-768.jpg 768w, /ellen-landscape.jpg 1280w"
+        sizes="100vw"
+      />
+      <img
+        src="/ellen-portrait-768.jpg"
+        srcset="/ellen-portrait-480.jpg 480w, /ellen-portrait-768.jpg 768w, /ellen-portrait.jpg 1080w"
+        sizes="100vw"
+        width="1080"
+        height="1440"
+        alt="Ellen at the piano"
+      />
     </picture>
   </div>
 
@@ -62,9 +73,14 @@ import Footer from "../components/Footer.astro";
     }
   }
 
+  .photo-break picture,
   .photo-break img {
     width: 100%;
     height: 100%;
+    display: block;
+  }
+
+  .photo-break img {
     object-fit: cover;
     object-position: center 20%;
     opacity: 0.85;
