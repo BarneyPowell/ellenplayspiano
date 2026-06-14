@@ -94,7 +94,7 @@ export interface TrustItem {
 }
 
 export const trustItems: TrustItem[] = [
-  { label: "Enhanced CRB checked", icon: "shield" },
+  { label: "Enhanced DBS checked", icon: "shield" },
   { label: "30 years' experience", icon: "clock" },
   { label: "ABRSM & Trinity preparation", icon: "music" },
   { label: "Home studio in London N14", icon: "pin" },
