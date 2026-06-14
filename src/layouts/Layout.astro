@@ -35,6 +35,9 @@ const fontStylesheet =
     <noscript>
       <link href={fontStylesheet} rel="stylesheet" />
     </noscript>
+    <script is:inline>
+      document.documentElement.classList.add("js");
+    </script>
   </head>
   <body>
     <slot />

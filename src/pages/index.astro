@@ -31,6 +31,9 @@ import Footer from "../components/Footer.astro";
         sizes="100vw"
         width="1080"
         height="1440"
+        loading="lazy"
+        decoding="async"
+        fetchpriority="low"
         alt="Ellen at the piano"
       />
     </picture>
@@ -48,6 +51,22 @@ import Footer from "../components/Footer.astro";
 
   <Footer />
 </Layout>
+
+<script>
+  const photoBreak = document.querySelector(".photo-break");
+  const photoImage = photoBreak?.querySelector("img");
+
+  if (photoBreak && photoImage) {
+    const markLoaded = () => photoBreak.classList.add("photo-loaded");
+
+    if (photoImage.complete) {
+      markLoaded();
+    } else {
+      photoImage.addEventListener("load", markLoaded, { once: true });
+      photoImage.addEventListener("error", markLoaded, { once: true });
+    }
+  }
+</script>
 
 <style>
   .photo-break {
@@ -84,6 +103,22 @@ import Footer from "../components/Footer.astro";
     object-fit: cover;
     object-position: center bottom;
     opacity: 0.85;
+  }
+
+  html.js .photo-break img {
+    filter: blur(10px);
+    opacity: 0;
+    transform: scale(1.015);
+    transition:
+      filter 900ms ease,
+      opacity 900ms ease,
+      transform 900ms ease;
+  }
+
+  html.js .photo-break.photo-loaded img {
+    filter: blur(0);
+    opacity: 0.85;
+    transform: scale(1);
   }
 
   @media (min-width: 768px) {
