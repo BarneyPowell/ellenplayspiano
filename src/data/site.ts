@@ -4,6 +4,7 @@ export const site = {
   email: import.meta.env.WEBSITE_EMAIL ?? "hello@ellenplayspiano.com",
   location: "Home studio in London N14",
   year: 2026,
+  url: import.meta.env.WEBSITE_URL ?? "https://ellenplayspiano.com" as string,
 } as const;
 
 export const hero = {
@@ -33,14 +34,14 @@ export interface Lesson {
 
 export const lessons: Lesson[] = [
   {
-    audience: "Ages 7–11",
+    audience: "Ages 7-11",
     name: "Building Foundations",
     description:
       "Developing technique, communication and imagination. Working confidently towards graded examinations.",
     duration: "30 minutes",
   },
   {
-    audience: "Ages 11–16",
+    audience: "Ages 11-16",
     name: "Young Musicians",
     description:
       "Expanding repertoire and deepening interpretation. The learner will start to appreciate the rewards of serious, dedicated practice. Lessons take place on my beautifully regulated Kemble upright piano at my home studio in London N14.",
@@ -51,7 +52,7 @@ export const lessons: Lesson[] = [
     name: "A Fresh Start — or a Return",
     description:
       "Whether you're picking up the piano for the first time or rediscovering it after years away, lessons are shaped entirely around you — your pace, your goals, your music.",
-    duration: "45–60 minutes",
+    duration: "45-60 minutes",
   },
 ];
 
