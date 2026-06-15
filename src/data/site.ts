@@ -43,7 +43,7 @@ export const lessons: Lesson[] = [
     audience: "Ages 11–16",
     name: "Young Musicians",
     description:
-      "Ambitious repertoire, nuanced interpretation, and the poise that comes from dedicated, serious practice. Lessons take place on a beautifully regulated Kemble upright piano at my home studio in London N14.",
+      "Expanding repertoire and deepening interpretation. The learner will start to appreciate the rewards of serious, dedicated practice. Lessons take place on my beautifully regulated Kemble upright piano at my home studio in London N14.",
     duration: "45 minutes",
   },
   {
