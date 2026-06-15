@@ -20,7 +20,7 @@ export const about = {
   lead: "Thirty years at the piano — as performer, student, and teacher. A deep belief that musical education is for everyone, at every stage of life.",
   columns: [
     "My teaching is grounded in the classical tradition — careful technique, structured progression, and a genuine respect for the discipline that makes real musicianship possible. I prepare pupils for ABRSM and Trinity examinations, but exams are only part of the picture.",
-    "What I truly care about is helping each person — whether they're five or fifty-five — develop a lasting, personal relationship with music. One that brings confidence, calm, creative satisfaction, and the quiet pride of mastering something beautiful.",
+    "What I truly care about is helping each person — whether they're seven or seventy — develop a lasting, personal relationship with music. One that brings confidence, calm, creative satisfaction, and the quiet pride of mastering something beautiful.",
   ],
 } as const;
 
