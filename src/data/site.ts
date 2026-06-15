@@ -36,7 +36,7 @@ export const lessons: Lesson[] = [
     audience: "Ages 7–11",
     name: "Building Foundations",
     description:
-      "Developing fluency, sight-reading, and expression. Working confidently towards graded examinations.",
+      "Developing technique, communication and imagination. Working confidently towards graded examinations.",
     duration: "30 minutes",
   },
   {
