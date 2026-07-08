@@ -3,12 +3,12 @@ import { site } from "../data/site";
 ---
 
 <nav id="navbar">
-  <div class="nav-logo">{site.name}</div>
+  <a class="nav-logo" href="/">{site.name}</a>
   <ul class="nav-links">
-    <li><a href="#about">About</a></li>
-    <li><a href="#lessons">Lessons</a></li>
-    <li><a href="#philosophy">Philosophy</a></li>
-    <li><a href="#contact">Contact</a></li>
+    <li><a href="/#about">About</a></li>
+    <li><a href="/#lessons">Lessons</a></li>
+    <li><a href="/#philosophy">Philosophy</a></li>
+    <li><a href="/#contact">Contact</a></li>
   </ul>
 </nav>
 
@@ -40,6 +40,7 @@ import { site } from "../data/site";
     font-weight: 500;
     color: var(--gold);
     letter-spacing: 0.01em;
+    text-decoration: none;
   }
 
   .nav-links {

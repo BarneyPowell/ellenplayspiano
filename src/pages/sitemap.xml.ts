@@ -1,4 +1,5 @@
 import { site } from "../data/site";
+import { articles } from "../data/articles";
 
 const pages = [
   {
@@ -6,6 +7,11 @@ const pages = [
     changefreq: "monthly",
     priority: "1.0",
   },
+  ...articles.map((article) => ({
+    path: article.slug,
+    changefreq: "monthly",
+    priority: "0.7",
+  })),
 ] as const;
 
 export function GET() {
