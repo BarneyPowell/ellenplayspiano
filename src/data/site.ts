@@ -20,6 +20,14 @@ export const socialLinks = [
     label: "Instagram",
     url: "https://www.instagram.com/ellen_plays_piano",
   },
+  {
+    label: "YouTube",
+    url: "https://www.youtube.com/@EllenPlaysPiano",
+  },
+  {
+    label: "TikTok",
+    url: "https://www.tiktok.com/@ellenplaysthepiano",
+  },
 ] as const;
 
 export const serviceAreas = [
