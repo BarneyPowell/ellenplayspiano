@@ -4,7 +4,111 @@ export const site = {
   email: import.meta.env.WEBSITE_EMAIL ?? "hello@ellenplayspiano.com",
   location: "Home studio in London N14",
   year: 2026,
-  url: import.meta.env.WEBSITE_URL ?? "https://ellenplayspiano.com" as string,
+  url: (import.meta.env.WEBSITE_URL ?? "https://ellenplayspiano.com") as string,
+  socialImage: "/assets/images/ellen-landscape.jpg",
+} as const;
+
+export const seo = {
+  title: "Ellen Plays Piano — Piano Lessons for All Ages",
+  description:
+    "Classical piano lessons and piano tuition for children and adults in London N14. ABRSM and Trinity preparation. 30 years' experience.",
+  locale: "en_GB",
+} as const;
+
+export const socialLinks = [
+  {
+    label: "Instagram",
+    url: "https://www.instagram.com/ellen_plays_piano",
+  },
+] as const;
+
+export const serviceAreas = [
+  "Enfield",
+  "London N14",
+  "Southgate",
+  "Winchmore Hill",
+  "Palmers Green",
+  "Oakwood",
+  "North London",
+] as const;
+
+const absoluteUrl = (path: string) => new URL(path, site.url).toString();
+
+export const localBusinessSchema = {
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  "@id": absoluteUrl("#business"),
+  name: site.name,
+  url: site.url,
+  image: absoluteUrl(site.socialImage),
+  email: site.email,
+  description: seo.description,
+  priceRange: "£40 per hour",
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: "London",
+    postalCode: "N14",
+    addressCountry: "GB",
+  },
+  areaServed: serviceAreas.map((area) => ({
+    "@type": "Place",
+    name: area,
+  })),
+  sameAs: socialLinks.map((link) => link.url),
+  contactPoint: {
+    "@type": "ContactPoint",
+    contactType: "lesson enquiries",
+    email: site.email,
+    areaServed: "GB",
+    availableLanguage: "English",
+  },
+  hasOfferCatalog: {
+    "@type": "OfferCatalog",
+    name: "Piano tuition",
+    itemListElement: [
+      {
+        "@type": "Offer",
+        itemOffered: {
+          "@type": "Service",
+          name: "Children's piano lessons",
+          serviceType: "Classical piano lessons for children",
+        },
+      },
+      {
+        "@type": "Offer",
+        itemOffered: {
+          "@type": "Service",
+          name: "Adult piano lessons",
+          serviceType: "Classical piano lessons for adults",
+        },
+      },
+      {
+        "@type": "Offer",
+        itemOffered: {
+          "@type": "Service",
+          name: "ABRSM and Trinity exam preparation",
+          serviceType: "Piano exam preparation",
+        },
+      },
+      {
+        "@type": "Offer",
+        itemOffered: {
+          "@type": "Service",
+          name: "Remote piano tuition",
+          serviceType: "Online piano lessons",
+        },
+      },
+    ],
+  },
+  knowsAbout: [
+    "Classical piano",
+    "Piano tuition",
+    "Children's piano lessons",
+    "Adult piano lessons",
+    "ABRSM piano exams",
+    "Trinity piano exams",
+    "Online piano lessons",
+  ],
 } as const;
 
 export const hero = {
