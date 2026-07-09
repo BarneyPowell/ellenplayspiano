@@ -7,6 +7,8 @@
   --gold: #c9a96e;
   --gold-light: #e4d4a5;
   --gold-muted: rgba(201, 169, 110, 0.6);
+  /* Meets WCAG AA for normal text on --dark without making all subtle accents brighter. */
+  --gold-muted-readable: #8f7a51;
   --cream: #f5f0e8;
   --cream-dim: rgba(245, 240, 232, 0.7);
   --charcoal: #1a1a1a;
