@@ -25,7 +25,18 @@ import Footer from "../components/Footer.astro";
       <picture>
         <source
           media="(min-width: 768px)"
+          type="image/webp"
+          srcset="/assets/images/ellen-landscape-768.webp 768w, /assets/images/ellen-landscape.webp 1280w"
+          sizes="100vw"
+        />
+        <source
+          media="(min-width: 768px)"
           srcset="/assets/images/ellen-landscape-768.jpg 768w, /assets/images/ellen-landscape.jpg 1280w"
+          sizes="100vw"
+        />
+        <source
+          type="image/webp"
+          srcset="/assets/images/ellen-portrait-480.webp 480w, /assets/images/ellen-portrait-768.webp 768w, /assets/images/ellen-portrait.webp 1080w"
           sizes="100vw"
         />
         <img
