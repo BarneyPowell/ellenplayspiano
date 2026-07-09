@@ -22,7 +22,7 @@ export const articles: ArticleData[] = [
     title: "Piano and ADHD: why music can be a great fit",
     label: "For parents",
     description:
-      "A thoughtful note from Ellen on why piano lessons can suit many children with ADHD, and how patient, flexible teaching can help them feel successful.",
+      "My thoughts on why piano lessons can suit many children with ADHD, and how patient, flexible teaching can help them feel successful.",
     standfirst:
       "Children with ADHD are often full of creativity, imagination and energy. Many are naturally musical, and with the right support they can flourish at the piano.",
     audience: "Children's piano lessons",
