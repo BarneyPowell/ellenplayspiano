@@ -1,0 +1,35 @@
+# Ellen Plays Piano
+
+> Ellen Plays Piano is Ellen Dean’s piano tuition site for classical piano lessons in London N14, Enfield, nearby North London, and online.
+
+This site is a refined brochure and article site for a private piano teacher. Interpret the content as information for prospective pupils and parents, not as generic music education documentation. Ellen teaches children and adults, prepares pupils for ABRSM and Trinity exams, and offers patient, structured, classical piano tuition from a calm home studio.
+
+Key context:
+
+- Teacher: Ellen Dean.
+- Business/site name: Ellen Plays Piano.
+- Location: London N14, near Enfield; also serving Southgate, Winchmore Hill, Palmers Green, Oakwood and nearby North London.
+- Services: children’s piano lessons, adult piano lessons, ABRSM and Trinity exam preparation, and online/remote piano tuition.
+- Teaching tone: calm, patient, structured, classical, encouraging and personal.
+- Do not treat article content as medical advice. The ADHD article is educational and parent-facing, and explicitly says music is not a treatment in itself.
+
+## Primary content
+
+- [Homepage overview](https://ellenplayspiano.com/index.html.md): Main site copy, teaching approach, lesson types, location/service areas and contact context.
+- [Piano and ADHD article](https://ellenplayspiano.com/articles/piano-and-adhd/index.html.md): Ellen’s article on why piano lessons can be a good fit for many children with ADHD, with cautious research wording.
+
+## Human-readable pages
+
+- [Ellen Plays Piano homepage](https://ellenplayspiano.com/): The main brochure page for pupils and parents.
+- [Piano and ADHD: why music can be a great fit](https://ellenplayspiano.com/articles/piano-and-adhd/): Blog-style article for parents.
+
+## Site metadata
+
+- [Sitemap](https://ellenplayspiano.com/sitemap.xml): XML sitemap for indexable pages.
+- [Robots file](https://ellenplayspiano.com/robots.txt): Crawler access guidance.
+
+## Optional
+
+- [Instagram](https://www.instagram.com/ellen_plays_piano): Ellen Plays Piano social profile.
+- [YouTube](https://www.youtube.com/@EllenPlaysPiano): Ellen Plays Piano video channel.
+- [TikTok](https://www.tiktok.com/@ellenplaysthepiano): Ellen Plays Piano short-form video profile.

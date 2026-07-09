@@ -1,17 +1,28 @@
 ---
-import { site } from "../data/site";
+import { localBusinessSchema, seo, site } from "../data/site";
 import "../styles/global.css";
 
 interface Props {
   title?: string;
   description?: string;
+  canonicalPath?: string;
+  image?: string;
+  type?: "website" | "article";
+  schema?: unknown;
 }
 
 const {
-  title = `${site.name} — Piano Lessons for All Ages`,
-  description = "Classical piano lessons for children and adults in London N14. ABRSM and Trinity preparation. 30 years' experience.",
+  title = seo.title,
+  description = seo.description,
+  canonicalPath = "/",
+  image = site.socialImage,
+  type = "website",
+  schema = localBusinessSchema,
 } = Astro.props;
 
+const canonicalUrl = new URL(canonicalPath, site.url).toString();
+const imageUrl = new URL(image, site.url).toString();
+const schemaJson = JSON.stringify(schema).replace(/</g, "\\u003c");
 const fontStylesheet =
   "https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@300;400;500&display=swap";
 ---
@@ -24,6 +35,26 @@ const fontStylesheet =
     <meta name="description" content={description} />
     <title>{title}</title>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="alternate icon" href="/favicon.ico" />
+    <link rel="canonical" href={canonicalUrl} />
+
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content={type} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={imageUrl} />
+    <meta property="og:image:alt" content="Ellen at the piano" />
+    <meta property="og:locale" content={seo.locale} />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={imageUrl} />
+    <meta name="twitter:image:alt" content="Ellen at the piano" />
+
+    <script type="application/ld+json" set:html={schemaJson} />
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -32,7 +63,6 @@ const fontStylesheet =
       href={fontStylesheet}
       onload="this.onload=null;this.rel='stylesheet'"
     />
-    <link rel="canonical" href={site.url} />
     <noscript>
       <link href={fontStylesheet} rel="stylesheet" />
     </noscript>

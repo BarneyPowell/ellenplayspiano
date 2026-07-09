@@ -1,0 +1,248 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Nav from "../../components/Nav.astro";
+import Footer from "../../components/Footer.astro";
+import { articleSchemaFor, featuredArticle } from "../../data/articles";
+
+const article = featuredArticle;
+
+const articleBody = article.body.map((paragraph, index) => {
+  const link = article.researchLink;
+
+  if (!link || link.paragraphIndex !== index || !paragraph.includes(link.text)) {
+    return { before: paragraph };
+  }
+
+  const [before, after] = paragraph.split(link.text);
+
+  return { before, linkText: link.text, href: link.url, after };
+});
+---
+
+<Layout
+  title={`${article.title} | Ellen Plays Piano`}
+  description={article.description}
+  canonicalPath={article.slug}
+  type="article"
+  schema={articleSchemaFor(article)}
+>
+  <Nav />
+
+  <main class="article-page">
+    <article class="article-shell animate-on-scroll">
+      <header class="article-header">
+        <a class="back-link" href="/#articles">Articles</a>
+        <p class="article-label">{article.label}</p>
+        <h1>{article.title}</h1>
+        <p class="standfirst">{article.standfirst}</p>
+        <div class="article-meta" aria-label="Article details">
+          <span>{article.audience}</span>
+          <span aria-hidden="true">•</span>
+          <span>{article.readTime}</span>
+        </div>
+      </header>
+
+      <div class="article-body">
+        {
+          articleBody.map(({ before, linkText, href, after }) => (
+            <p>
+              {before}
+              {href && (
+                <a href={href} target="_blank" rel="noopener noreferrer">
+                  {linkText}
+                </a>
+              )}
+              {after}
+            </p>
+          ))
+        }
+      </div>
+
+      <aside class="article-note" aria-label="A note from Ellen Plays Piano">
+        <p>
+          If you would like to talk about piano lessons for your child, I am happy to
+          have a gentle initial conversation about what might suit them.
+        </p>
+        <a href="/#contact">Get in touch</a>
+      </aside>
+    </article>
+  </main>
+
+  <Footer />
+</Layout>
+
+<style>
+  .article-page {
+    min-height: 100vh;
+    padding: 10rem 1.5rem 5rem;
+    background:
+      radial-gradient(circle at 18% 12%, rgba(201, 169, 110, 0.11), transparent 28rem),
+      linear-gradient(180deg, rgba(20, 20, 20, 0.78), var(--dark) 34rem);
+  }
+
+  .article-shell {
+    width: min(100%, 760px);
+    margin: 0 auto;
+  }
+
+  .article-header {
+    padding-bottom: 3.3rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .back-link {
+    display: inline-block;
+    color: var(--gold-muted);
+    font-size: 0.75rem;
+    font-weight: 300;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    margin-bottom: 3rem;
+    transition: color 0.3s ease;
+  }
+
+  .back-link:hover {
+    color: var(--gold);
+  }
+
+  .article-label,
+  .article-meta {
+    color: var(--gold-muted);
+    font-size: 0.74rem;
+    font-weight: 300;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .article-header h1 {
+    font-family: var(--font-display);
+    font-size: clamp(2.4rem, 7vw, 5.2rem);
+    font-weight: 400;
+    line-height: 0.98;
+    letter-spacing: -0.035em;
+    color: var(--cream);
+    margin: 1rem 0 1.5rem;
+    max-width: 720px;
+  }
+
+  .standfirst {
+    max-width: 640px;
+    color: var(--cream-dim);
+    font-family: var(--font-display);
+    font-size: clamp(1.28rem, 2.6vw, 1.75rem);
+    font-weight: 400;
+    line-height: 1.55;
+  }
+
+  .article-meta {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    margin-top: 2rem;
+  }
+
+  .article-body {
+    max-width: 650px;
+    padding: 3.5rem 0 1rem;
+  }
+
+  .article-body p {
+    color: rgba(245, 240, 232, 0.78);
+    font-size: clamp(1rem, 1.5vw, 1.08rem);
+    font-weight: 300;
+    line-height: 1.95;
+    margin-bottom: 1.65rem;
+  }
+
+  .article-body p:first-child::first-letter {
+    float: left;
+    font-family: var(--font-display);
+    font-size: 4.3rem;
+    line-height: 0.78;
+    color: var(--gold);
+    padding: 0.16rem 0.42rem 0 0;
+  }
+
+  .article-body a {
+    color: var(--gold-light);
+    text-decoration-color: rgba(201, 169, 110, 0.45);
+    text-underline-offset: 0.18em;
+    transition:
+      color 0.3s ease,
+      text-decoration-color 0.3s ease;
+  }
+
+  .article-body a:hover {
+    color: var(--gold);
+    text-decoration-color: var(--gold);
+  }
+
+  .article-note {
+    margin: 3.2rem 0 0;
+    padding: 2rem;
+    border: 1px solid var(--border);
+    background: rgba(201, 169, 110, 0.045);
+  }
+
+  .article-note p {
+    color: var(--cream-dim);
+    font-family: var(--font-display);
+    font-size: 1.18rem;
+    font-weight: 400;
+    line-height: 1.65;
+    margin-bottom: 1.2rem;
+  }
+
+  .article-note a {
+    color: var(--gold);
+    font-size: 0.78rem;
+    font-weight: 300;
+    letter-spacing: 0.1em;
+    text-decoration: none;
+    text-transform: uppercase;
+  }
+
+  .article-note a:hover {
+    color: var(--gold-light);
+  }
+
+  @media (max-width: 768px) {
+    .article-page {
+      padding-top: 7.5rem;
+    }
+
+    .article-header {
+      padding-bottom: 2.5rem;
+    }
+
+    .back-link {
+      margin-bottom: 2rem;
+    }
+
+    .article-meta {
+      flex-direction: column;
+      gap: 0.55rem;
+    }
+
+    .article-meta [aria-hidden="true"] {
+      display: none;
+    }
+
+    .article-body {
+      padding-top: 2.5rem;
+    }
+
+    .article-body p {
+      line-height: 1.82;
+    }
+
+    .article-body p:first-child::first-letter {
+      font-size: 3.6rem;
+    }
+
+    .article-note {
+      padding: 1.5rem;
+    }
+  }
+</style>

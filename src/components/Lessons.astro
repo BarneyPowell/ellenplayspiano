@@ -1,13 +1,11 @@
 ---
-import { lessons, lessonsRateNote } from "../data/site";
+import { lessons, lessonsLead, lessonsRateNote } from "../data/site";
 ---
 
 <div class="content-section animate-on-scroll" id="lessons">
   <span class="section-number">ii.</span>
   <h2>Lessons</h2>
-  <p class="lead">
-    Programmes shaped around where you are and where you'd like to go.
-  </p>
+  <p class="lead">{lessonsLead}</p>
   <div class="lessons-list">
     {
       lessons.map((lesson) => (
