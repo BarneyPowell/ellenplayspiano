@@ -2,15 +2,17 @@
 import { site } from "../data/site";
 ---
 
-<nav id="navbar">
-  <a class="nav-logo" href="/">{site.name}</a>
-  <ul class="nav-links">
-    <li><a href="/#about">About</a></li>
-    <li><a href="/#lessons">Lessons</a></li>
-    <li><a href="/#philosophy">Philosophy</a></li>
-    <li><a href="/#contact">Contact</a></li>
-  </ul>
-</nav>
+<header class="site-header">
+  <nav id="navbar" aria-label="Primary navigation">
+    <a class="nav-logo" href="/">{site.name}</a>
+    <ul class="nav-links">
+      <li><a href="/#about">About</a></li>
+      <li><a href="/#lessons">Lessons</a></li>
+      <li><a href="/#philosophy">Philosophy</a></li>
+      <li><a href="/#contact">Contact</a></li>
+    </ul>
+  </nav>
+</header>
 
 <style>
   nav {
