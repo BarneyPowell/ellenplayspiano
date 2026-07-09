@@ -5,6 +5,18 @@ import Footer from "../../components/Footer.astro";
 import { articleSchemaFor, featuredArticle } from "../../data/articles";
 
 const article = featuredArticle;
+
+const articleBody = article.body.map((paragraph, index) => {
+  const link = article.researchLink;
+
+  if (!link || link.paragraphIndex !== index || !paragraph.includes(link.text)) {
+    return { before: paragraph };
+  }
+
+  const [before, after] = paragraph.split(link.text);
+
+  return { before, linkText: link.text, href: link.url, after };
+});
 ---
 
 <Layout
@@ -31,7 +43,19 @@ const article = featuredArticle;
       </header>
 
       <div class="article-body">
-        {article.body.map((paragraph) => <p>{paragraph}</p>)}
+        {
+          articleBody.map(({ before, linkText, href, after }) => (
+            <p>
+              {before}
+              {href && (
+                <a href={href} target="_blank" rel="noopener noreferrer">
+                  {linkText}
+                </a>
+              )}
+              {after}
+            </p>
+          ))
+        }
       </div>
 
       <aside class="article-note" aria-label="A note from Ellen Plays Piano">
@@ -138,6 +162,20 @@ const article = featuredArticle;
     line-height: 0.78;
     color: var(--gold);
     padding: 0.16rem 0.42rem 0 0;
+  }
+
+  .article-body a {
+    color: var(--gold-light);
+    text-decoration-color: rgba(201, 169, 110, 0.45);
+    text-underline-offset: 0.18em;
+    transition:
+      color 0.3s ease,
+      text-decoration-color 0.3s ease;
+  }
+
+  .article-body a:hover {
+    color: var(--gold);
+    text-decoration-color: var(--gold);
   }
 
   .article-note {
