@@ -1,0 +1,80 @@
+---
+import { featuredArticle } from "../data/articles";
+---
+
+<section class="content-section article-teaser animate-on-scroll" id="articles" aria-labelledby="articles-heading">
+  <span class="section-number">iv.</span>
+  <p class="eyebrow">Notes for parents</p>
+  <h2 id="articles-heading">A little more to read</h2>
+  <a class="article-card" href={featuredArticle.slug}>
+    <span class="article-label">{featuredArticle.label}</span>
+    <h3>{featuredArticle.title}</h3>
+    <p>{featuredArticle.description}</p>
+    <span class="article-meta">{featuredArticle.readTime}</span>
+  </a>
+</section>
+
+<style>
+  .article-teaser {
+    max-width: 760px;
+  }
+
+  .eyebrow,
+  .article-label,
+  .article-meta {
+    color: var(--gold-muted);
+    font-size: 0.72rem;
+    font-weight: 300;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .eyebrow {
+    margin-bottom: 0.65rem;
+  }
+
+  .article-card {
+    display: block;
+    margin-top: 2.25rem;
+    padding: 2.25rem;
+    border: 1px solid var(--border);
+    background: linear-gradient(135deg, rgba(201, 169, 110, 0.06), rgba(20, 20, 20, 0.72));
+    color: inherit;
+    text-decoration: none;
+    transition:
+      border-color 0.3s ease,
+      transform 0.3s ease,
+      background 0.3s ease;
+  }
+
+  .article-card:hover {
+    border-color: rgba(201, 169, 110, 0.28);
+    background: linear-gradient(135deg, rgba(201, 169, 110, 0.09), rgba(20, 20, 20, 0.82));
+    transform: translateY(-2px);
+  }
+
+  .article-card h3 {
+    font-family: var(--font-display);
+    font-size: clamp(1.45rem, 3vw, 2rem);
+    font-weight: 400;
+    line-height: 1.25;
+    color: var(--cream);
+    margin: 0.7rem 0 0.8rem;
+    letter-spacing: -0.01em;
+  }
+
+  .article-card p {
+    max-width: 560px;
+    color: var(--cream-dim);
+    font-size: 0.95rem;
+    font-weight: 300;
+    line-height: 1.8;
+    margin-bottom: 1.4rem;
+  }
+
+  @media (max-width: 768px) {
+    .article-card {
+      padding: 1.55rem;
+    }
+  }
+</style>
